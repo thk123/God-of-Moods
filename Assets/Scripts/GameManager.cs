@@ -146,7 +146,7 @@ public class GameManager : MonoBehaviour {
 
     void StartGo()
     {
-        print("Starting go: " + hand.HandSize + "/" + hand.CurrentHandSize);
+        print("Starting go: " + hand.CurrentHandSize + "/" + hand.HandSize);
         while (hand.CurrentHandSize < hand.HandSize)
         {            
             hand.DealCard(cardDeck.DrawCard());

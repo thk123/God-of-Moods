@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class Draggable : MonoBehaviour {
@@ -15,6 +16,9 @@ public class Draggable : MonoBehaviour {
     Matrix4x4 inverseScale;
 
     public float scaleFactor;
+
+    public event EventHandler OnPickedUp;
+    public event EventHandler OnSpent;
 
 
 	// Use this for initialization
@@ -40,6 +44,12 @@ public class Draggable : MonoBehaviour {
                 if (onDropBox != null && onDropBox.CanDrop)
                 {
                     onDropBox.DropCard(GetComponent<MoodCard>());
+
+                    if (OnSpent != null)
+                    {
+                        OnSpent(this, new EventArgs());
+                    }
+                 
                 }
                 else
                 {
@@ -62,6 +72,11 @@ public class Draggable : MonoBehaviour {
                     startingPosition = transform.position;
 
                     transform.localScale = scale * transform.localScale;
+
+                    if (OnPickedUp != null)
+                    {
+                        OnPickedUp(this, new EventArgs());
+                    }
                 }
             }
         }
