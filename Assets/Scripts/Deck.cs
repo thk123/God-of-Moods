@@ -42,8 +42,6 @@ public class Deck : MonoBehaviour {
 
         CurrentDeck.Shuffle();
 
-        print(CurrentDeck.Count);
-
         startingHeight = transform.localScale.y;
             
     }

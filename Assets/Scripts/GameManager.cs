@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour {
 
     eMood lastMood;
 
+    AdvanceButton button;
+
 	// Use this for initialization
 	void Start () {
         Events[] eventDecks = GameObject.FindObjectsOfType<Events>();
@@ -51,6 +53,8 @@ public class GameManager : MonoBehaviour {
 		shower = FindObjectOfType<EventShower>();
 
         dropBox = FindObjectOfType<DropBox>();
+
+        button = FindObjectOfType<AdvanceButton>();
 
         lifeSegmentBar = FindObjectOfType<LifeSegmentManager>();
 
@@ -134,7 +138,6 @@ public class GameManager : MonoBehaviour {
             case GameState.WaitingOnConfirmation:
 
                 // TODO
-
                 break;
             default:
                 break;
@@ -143,15 +146,17 @@ public class GameManager : MonoBehaviour {
 
     void StartGo()
     {
+        print("Starting go: " + hand.HandSize + "/" + hand.CurrentHandSize);
         while (hand.CurrentHandSize < hand.HandSize)
-        {
-            
+        {            
             hand.DealCard(cardDeck.DrawCard());
         }
 
         TakeEvent();
 
-        dropBox.canDrop = true;   
+        dropBox.canDrop = true;
+
+        button.Avaliable = false;
     }
 
     public void PlayCard(eMood card)
@@ -166,5 +171,19 @@ public class GameManager : MonoBehaviour {
         shower.SetOutcome(card);
 
         lifeSegmentBar.SetSegment(card);
+
+        button.Avaliable = true;
+
+        gameState = GameState.WaitingOnConfirmation;
+    }
+
+    public void Advance()
+    {
+        if (gameState != GameState.WaitingOnConfirmation)
+        {
+            throw new UnityException("Invalid state to advance from");
+        }
+
+        gameState = GameState.Begin;
     }
 }
