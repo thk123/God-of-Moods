@@ -37,7 +37,7 @@ public class Draggable : MonoBehaviour {
             {
                 beingDragged = false;
 
-                if (onDropBox != null)
+                if (onDropBox != null && onDropBox.CanDrop)
                 {
                     onDropBox.DropCard(GetComponent<MoodCard>());
                 }

@@ -4,6 +4,11 @@ using System.Collections;
 public interface IDropBox
 {
     void DropCard(MoodCard card);
+
+    bool CanDrop
+    {
+        get;
+    }
 }
 
 public class DropBox : MonoBehaviour, IDropBox {
@@ -13,7 +18,7 @@ public class DropBox : MonoBehaviour, IDropBox {
     public Texture2D canDropTexture;
     public Texture2D cantDropTexture;
 
-    public bool canDrop
+    public bool CanDrop
     {
         get 
         {
@@ -39,7 +44,7 @@ public class DropBox : MonoBehaviour, IDropBox {
 	// Use this for initialization
 	void Start () {
         
-        canDrop = true;
+        CanDrop = true;
 	}
 	
 	// Update is called once per frame
@@ -52,6 +57,6 @@ public class DropBox : MonoBehaviour, IDropBox {
         manager.PlayCard(card.mood);
         GameObject.Destroy(card.gameObject);
 
-        canDrop = false;
+        CanDrop = false;
     }
 }

@@ -154,7 +154,7 @@ public class GameManager : MonoBehaviour {
 
         TakeEvent();
 
-        dropBox.canDrop = true;
+        dropBox.CanDrop = true;
 
         button.Avaliable = false;
     }
