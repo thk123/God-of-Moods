@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour {
 
         hand = GameObject.FindObjectOfType<Hand>();
 
-        //shower = (IEventShower)FindObjectOfType;
+		shower = FindObjectOfType<EventShower>();
 
         foreach (Events eventDeck in eventDecks)
         {
@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour {
 
         Event selectedEvent = selecteDeck.DrawEvent();
 
-        //shower.SetEvent(selectedEvent);
+        shower.SetEvent(selectedEvent);
     }
 
 	// Update is called once per frame
