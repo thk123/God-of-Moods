@@ -13,7 +13,9 @@ public class GameManager : MonoBehaviour {
     enum GameState
     {
         Begin,
-        WaitingOnInput
+        WaitingOnCardChoose,
+        WaitingOnConfirmation,
+
     }
 
     
@@ -29,20 +31,16 @@ public class GameManager : MonoBehaviour {
 
     Hand hand;
 
-    int optimismValue;
-    int pessimismValue;
-    int angerValue;
-    int chillValue;
 
-    public MeshRenderer eventRenderObject;
+    IEventShower shower;
 
-    int totalValue
-    {
-        get
-        {
-            return optimismValue + pessimismValue + angerValue + chillValue;
-        }
-    }
+    LifeSegmentManager lifeSegmentBar;
+
+    DropBox dropBox;
+
+    eMood lastMood;
+
+    AdvanceButton button;
 
 	// Use this for initialization
 	void Start () {
@@ -51,6 +49,14 @@ public class GameManager : MonoBehaviour {
         cardDeck = GameObject.FindObjectOfType<Deck>();
 
         hand = GameObject.FindObjectOfType<Hand>();
+
+		shower = FindObjectOfType<EventShower>();
+
+        dropBox = FindObjectOfType<DropBox>();
+
+        button = FindObjectOfType<AdvanceButton>();
+
+        lifeSegmentBar = FindObjectOfType<LifeSegmentManager>();
 
         foreach (Events eventDeck in eventDecks)
         {
@@ -86,47 +92,52 @@ public class GameManager : MonoBehaviour {
 
     void ResetValues()
     {
-        optimismValue = 4;
-        pessimismValue = 0;
-        angerValue = 0;
-        chillValue = 0;
+        lastMood = (eMood)Random.Range(0, (int)eMood.eMoodCount);
     }
 
     void TakeEvent()
     {
-        int value = Random.Range(0, totalValue);
         Events selecteDeck;
-        if (value <= optimismValue)
+
+        switch (lastMood)
         {
-            selecteDeck = optimismEvents;
-        }
-        else if (value <= pessimismValue)
-        {
-            selecteDeck = pessimismEvents;
-        }
-        else if (value <= angerValue)
-        {
-            selecteDeck = angerEvents;
-        }
-        else
-        {
-            selecteDeck = chilledEvents;
+            case eMood.Optimisism:
+                selecteDeck = optimismEvents;
+                break;
+            case eMood.Pessismism:
+                selecteDeck = pessimismEvents;
+                break;
+            case eMood.Anger:
+                selecteDeck = angerEvents;
+                break;
+            case eMood.Chilled:
+                selecteDeck = chilledEvents;
+                break;
+            case eMood.eMoodCount:
+                throw new UnityException("Invalid last mood");
+            default:
+                throw new UnityException("Invalid last mood");
         }
 
         Event selectedEvent = selecteDeck.DrawEvent();
-        print(selectedEvent.text);
-        eventRenderObject.material = selectedEvent.eventMaterial;
-        //eventRenderObject
+
+        shower.SetEvent(selectedEvent);
     }
+
 	// Update is called once per frame
 	void Update () {
         switch (gameState)
         {
             case GameState.Begin:
                 StartGo();
-                gameState = GameState.WaitingOnInput;
+                gameState = GameState.WaitingOnCardChoose;
                 break;
-            case GameState.WaitingOnInput:
+            case GameState.WaitingOnCardChoose:
+                break;
+
+            case GameState.WaitingOnConfirmation:
+
+                // TODO
                 break;
             default:
                 break;
@@ -135,22 +146,44 @@ public class GameManager : MonoBehaviour {
 
     void StartGo()
     {
-        while (hand.CurrentHandSize < hand.HandSize - 1)
-        {
-            
+        print("Starting go: " + hand.HandSize + "/" + hand.CurrentHandSize);
+        while (hand.CurrentHandSize < hand.HandSize)
+        {            
             hand.DealCard(cardDeck.DrawCard());
         }
 
         TakeEvent();
+
+        dropBox.canDrop = true;
+
+        button.Avaliable = false;
     }
 
     public void PlayCard(eMood card)
     {
-        if (gameState != GameState.WaitingOnInput)
+        if (gameState != GameState.WaitingOnCardChoose)
         {
             throw new UnityException("Invalid state to be playing a card");
         }
 
-        // todo: use the card 
+        lastMood = card;
+
+        shower.SetOutcome(card);
+
+        lifeSegmentBar.SetSegment(card);
+
+        button.Avaliable = true;
+
+        gameState = GameState.WaitingOnConfirmation;
+    }
+
+    public void Advance()
+    {
+        if (gameState != GameState.WaitingOnConfirmation)
+        {
+            throw new UnityException("Invalid state to advance from");
+        }
+
+        gameState = GameState.Begin;
     }
 }

@@ -7,6 +7,10 @@ public class Loader : MonoBehaviour {
     {
         Application.LoadLevelAdditive("Deck");
         Application.LoadLevelAdditive("OptimisticEvents");
+        Application.LoadLevelAdditive("AngerEvents");
+        Application.LoadLevelAdditive("ChilledEvents");
+        Application.LoadLevelAdditive("PessimisticEvents");
+		Application.LoadLevelAdditive("ContentScreen");
     }
 
 	// Use this for initialization
