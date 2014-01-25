@@ -7,6 +7,8 @@ public class ContentController : MonoBehaviour, IEventShower
 
 	EventShower currentEventShower;
 
+    public AudioSource outcomeArrivalSound;
+
 	void Start()
 	{
 		currentEventShower = null;
@@ -32,6 +34,7 @@ public class ContentController : MonoBehaviour, IEventShower
 	public void SetOutcome (eMood mood)
 	{
 		currentEventShower.SetOutcome (mood);
+        outcomeArrivalSound.Play();
 	}
 	
 	#endregion

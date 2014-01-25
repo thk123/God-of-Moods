@@ -9,6 +9,8 @@ public class AdvanceButton : MonoBehaviour {
 
     public GameManager gameManager;
 
+    public AudioSource advanceButtonClickSound;
+
     bool isEnabled;
     public bool Avaliable
     {
@@ -79,6 +81,7 @@ public class AdvanceButton : MonoBehaviour {
                 if (collider2D.OverlapPoint(pos))
                 {
                     gameManager.Advance();
+                    advanceButtonClickSound.Play();
                 }
                 
             }
