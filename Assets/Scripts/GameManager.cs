@@ -13,7 +13,9 @@ public class GameManager : MonoBehaviour {
     enum GameState
     {
         Begin,
-        WaitingOnInput
+        WaitingOnCardChoose,
+        WaitingOnConfirmation,
+
     }
 
     
@@ -29,22 +31,10 @@ public class GameManager : MonoBehaviour {
 
     Hand hand;
 
-    int optimismValue;
-    int pessimismValue;
-    int angerValue;
-    int chillValue;
-
-    //public MeshRenderer eventRenderObject;
 
     IEventShower shower;
 
-    int totalValue
-    {
-        get
-        {
-            return optimismValue + pessimismValue + angerValue + chillValue;
-        }
-    }
+    eMood lastMood;
 
 	// Use this for initialization
 	void Start () {
@@ -90,50 +80,53 @@ public class GameManager : MonoBehaviour {
 
     void ResetValues()
     {
-        optimismValue = 4;
-        pessimismValue = 0;
-        angerValue = 0;
-        chillValue = 0;
+        lastMood = (eMood)Random.Range(0, (int)eMood.eMoodCount);
     }
 
     void TakeEvent()
     {
-        int value = Random.Range(0, totalValue);
         Events selecteDeck;
-        if (value <= optimismValue)
+
+        switch (lastMood)
         {
-            selecteDeck = optimismEvents;
-        }
-        else if (value <= pessimismValue)
-        {
-            selecteDeck = pessimismEvents;
-        }
-        else if (value <= angerValue)
-        {
-            selecteDeck = angerEvents;
-        }
-        else
-        {
-            selecteDeck = chilledEvents;
+            case eMood.Optimisism:
+                selecteDeck = optimismEvents;
+                break;
+            case eMood.Pessismism:
+                selecteDeck = pessimismEvents;
+                break;
+            case eMood.Anger:
+                selecteDeck = angerEvents;
+                break;
+            case eMood.Chilled:
+                selecteDeck = chilledEvents;
+                break;
+            case eMood.eMoodCount:
+                throw new UnityException("Invalid last mood");
+            default:
+                throw new UnityException("Invalid last mood");
         }
 
         Event selectedEvent = selecteDeck.DrawEvent();
-        /*print(selectedEvent.text);
-        eventRenderObject.material = selectedEvent.eventMaterial;*/
 
         //shower.SetEvent(selectedEvent);
-
-        //eventRenderObject
     }
+
 	// Update is called once per frame
 	void Update () {
         switch (gameState)
         {
             case GameState.Begin:
                 StartGo();
-                gameState = GameState.WaitingOnInput;
+                gameState = GameState.WaitingOnCardChoose;
                 break;
-            case GameState.WaitingOnInput:
+            case GameState.WaitingOnCardChoose:
+                break;
+
+            case GameState.WaitingOnConfirmation:
+
+                // TODO
+
                 break;
             default:
                 break;
@@ -153,10 +146,12 @@ public class GameManager : MonoBehaviour {
 
     public void PlayCard(eMood card)
     {
-        if (gameState != GameState.WaitingOnInput)
+        if (gameState != GameState.WaitingOnCardChoose)
         {
             throw new UnityException("Invalid state to be playing a card");
         }
+
+        lastMood = card;
 
         //shower.SetOutcome(card);
     }

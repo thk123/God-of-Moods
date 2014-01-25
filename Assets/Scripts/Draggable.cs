@@ -94,7 +94,6 @@ public class Draggable : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        print("OnTriggerEnter2D");
         IDropBox dropBox = (IDropBox)collision.gameObject.GetComponent(typeof(IDropBox));
 
         if (dropBox != null)
