@@ -1,15 +1,38 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ContentController : MonoBehaviour {
+public class ContentController : MonoBehaviour, IEventShower
+{
+	public GameObject viewer;
 
-	// Use this for initialization
-	void Start () {
+	EventShower currentEventShower;
+
+	void Start()
+	{
+		currentEventShower = null;
+	}
+
+	#region IEventShower implementation
 	
+	public void SetEvent (Event theEvent)
+	{
+		GameObject newEventShower;
+		newEventShower = (GameObject)Instantiate (viewer);
+
+		if (currentEventShower != null) 
+		{
+			currentEventShower.MoveOn();
+		}
+
+		currentEventShower = newEventShower.GetComponent<EventShower> ();
+		currentEventShower.MoveIn ();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
+	public void SetOutcome (eMood mood)
+	{
+		currentEventShower.SetOutcome (mood);
 	}
+	
+	#endregion
+
 }

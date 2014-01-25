@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour {
 
         hand = GameObject.FindObjectOfType<Hand>();
 
-		shower = FindObjectOfType<EventShower>();
+		shower = FindObjectOfType<ContentController>();
 
         dropBox = FindObjectOfType<DropBox>();
 

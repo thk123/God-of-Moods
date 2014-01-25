@@ -11,8 +11,8 @@ public class EventShower : MonoBehaviour, IEventShower  {
 
 	// Use this for initialization
 	void Start () {
-		//topText.text = "";
-		//bottomText.text = "";
+		topText.text = "";
+		bottomText.text = "";
 	}
 	
 	// Update is called once per frame
@@ -27,6 +27,7 @@ public class EventShower : MonoBehaviour, IEventShower  {
 		currentEvent = theEvent;
 
 		topText.text = ResolveTextSize(currentEvent.text);
+		bottomText.text = "";
 	}
 
 	public void SetOutcome (eMood mood)
@@ -45,6 +46,16 @@ public class EventShower : MonoBehaviour, IEventShower  {
 	void ApplyOutcome(EventOutcome outcome)
 	{
 		bottomText.text = ResolveTextSize(outcome.eventOutcomeText);
+	}
+
+	public void MoveIn ()
+	{
+		GetComponent<Slide> ().state = SlideState.Entering;
+	}
+
+	public void MoveOn ()
+	{
+		GetComponent<Slide> ().state = SlideState.Exiting;
 	}
 
 	// Wrap text by line height
