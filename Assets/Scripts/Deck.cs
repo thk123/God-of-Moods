@@ -9,6 +9,9 @@ public class Deck : MonoBehaviour {
 
     List<eMood> CurrentDeck;
 
+    public AudioSource newCardDrawn;
+    
+
     public int CardsRemaining
     {
         get
@@ -58,6 +61,8 @@ public class Deck : MonoBehaviour {
         CurrentDeck.RemoveAt(0);
 
         //transform.localScale.y -= cardHeight;
+
+        newCardDrawn.Play();
 
         return topCard;
     }

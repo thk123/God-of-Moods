@@ -20,6 +20,10 @@ public class Draggable : MonoBehaviour {
     public event EventHandler OnPickedUp;
     public event EventHandler OnSpent;
 
+    public AudioSource cardPickedUpSound;
+    public AudioSource cardResetSound;
+    public AudioSource cardPlayedSound;
+
 
 	// Use this for initialization
 	void Start () {
@@ -49,10 +53,13 @@ public class Draggable : MonoBehaviour {
                     {
                         OnSpent(this, new EventArgs());
                     }
+
+                    cardPlayedSound.Play();
                  
                 }
                 else
                 {
+                    cardResetSound.Play();
                     transform.position = startingPosition;
                 }
 
@@ -70,6 +77,8 @@ public class Draggable : MonoBehaviour {
                 {
                     beingDragged = true;
                     startingPosition = transform.position;
+
+                    cardPickedUpSound.Play();
 
                     transform.localScale = scale * transform.localScale;
 
