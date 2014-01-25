@@ -10,6 +10,7 @@ public class EventShower : MonoBehaviour, IEventShower  {
 	private Event currentEvent;
 
     public Slide foreground;
+	public Slide outcomeSlide;
 
 	// Use this for initialization
 	void Start () {
@@ -41,6 +42,8 @@ public class EventShower : MonoBehaviour, IEventShower  {
 
 		topText.text = ResolveTextSize(currentEvent.text);
 		bottomText.text = "";
+
+		foreground.renderer.material.mainTexture = theEvent.eventPicture;
 	}
 
 	public void SetOutcome (eMood mood)
@@ -59,6 +62,9 @@ public class EventShower : MonoBehaviour, IEventShower  {
 	void ApplyOutcome(EventOutcome outcome)
 	{
 		bottomText.text = ResolveTextSize(outcome.eventOutcomeText);
+		
+		outcomeSlide.renderer.material.mainTexture = outcome.eventOutcomePicture;
+		outcomeSlide.state = SlideState.Entering;
 	}
 
 	public void MoveIn ()

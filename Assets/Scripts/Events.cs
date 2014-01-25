@@ -48,4 +48,5 @@ public class Event
 public class EventOutcome
 {
     public string eventOutcomeText;
+	public Texture2D eventOutcomePicture;
 }
