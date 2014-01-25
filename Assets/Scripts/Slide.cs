@@ -3,6 +3,7 @@ using System.Collections;
 
 public enum SlideState
 {
+	Paused,
 	Entering,
 	Idle,
 	Exiting
@@ -26,7 +27,7 @@ public class Slide : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		state = SlideState.Exiting;
+		state = SlideState.Paused;
 	}
 	
 	// Update is called once per frame
@@ -34,6 +35,9 @@ public class Slide : MonoBehaviour {
 	{
 		switch (state) 
 		{
+			case SlideState.Paused:
+			transform.position = startPosition;
+			break;
 			case SlideState.Entering:
 			{
 				timePassed += Time.deltaTime;
