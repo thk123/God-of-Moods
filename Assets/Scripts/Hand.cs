@@ -18,9 +18,9 @@ public class Hand : MonoBehaviour {
         get
         {
             int numberOfCards = 0;
-            foreach (MoodCard card in hand)
+            foreach (eMood card in hand)
             {
-                if (card != null)
+                if (card != eMood.eMoodCount)
                 {
                     ++numberOfCards;
                 }
@@ -35,15 +35,15 @@ public class Hand : MonoBehaviour {
         get
         {
             Vector3 cardSpawnPoint = transform.position;
-            foreach (MoodCard card in hand)
+            foreach (eMood card in hand)
             {
-                if (card == null)
+                if (card == eMood.eMoodCount)
                 {
                     return cardSpawnPoint;
                 }
                 else
                 {
-                    cardSpawnPoint -= gapBetweenCards * Vector3.up;
+                    cardSpawnPoint -= gapBetweenCards * Vector3.left;
                 }
             }
 
@@ -51,11 +51,16 @@ public class Hand : MonoBehaviour {
         }
     }
 
-    MoodCard[] hand;
+    eMood[] hand;
 
 	// Use this for initialization
 	void Start () {
-        hand = new MoodCard[HandSize];
+        hand = new eMood[HandSize];
+
+        for (int i = 0; i < HandSize; ++i)
+        {
+            hand[i] = eMood.eMoodCount;
+        }
         
 	}
 	
@@ -64,7 +69,7 @@ public class Hand : MonoBehaviour {
 	
 	}
 
-    public void DealCard(MoodCard card)
+    public void DealCard(eMood card)
     {
         
         if (CurrentHandSize >= HandSize - 1)
@@ -75,25 +80,27 @@ public class Hand : MonoBehaviour {
         hand[CurrentHandSize] = card;
 
         print("Placing card: " + CurrentHandSize + "/" + HandSize);
-
-        switch (card.mood)
+        GameObject newCard;
+        switch (card)
         {
             case eMood.Optimisism:
-                Instantiate(optimismCard, NextCardSpawnPoint, Quaternion.AngleAxis(90.0f, Vector3.left) * Quaternion.AngleAxis(180.0f, Vector3.up));
+                newCard = (GameObject)Instantiate(optimismCard, NextCardSpawnPoint, Quaternion.AngleAxis(90.0f, Vector3.left) * Quaternion.AngleAxis(180.0f, Vector3.up));
                 break;
             case eMood.Pessismism:
-                Instantiate(pesimismCard, NextCardSpawnPoint, Quaternion.AngleAxis(90.0f, Vector3.left) * Quaternion.AngleAxis(180.0f, Vector3.up));
+                newCard = (GameObject)Instantiate(pesimismCard, NextCardSpawnPoint, Quaternion.AngleAxis(90.0f, Vector3.left) * Quaternion.AngleAxis(180.0f, Vector3.up));
                 break;
             case eMood.Anger:
-                Instantiate(angerCard, NextCardSpawnPoint, Quaternion.AngleAxis(90.0f, Vector3.left) * Quaternion.AngleAxis(180.0f, Vector3.up));
+                newCard = (GameObject)Instantiate(angerCard, NextCardSpawnPoint, Quaternion.AngleAxis(90.0f, Vector3.left) * Quaternion.AngleAxis(180.0f, Vector3.up));
                 break;
             case eMood.Chilled:
-                Instantiate(chillCard, NextCardSpawnPoint, Quaternion.AngleAxis(90.0f, Vector3.left) * Quaternion.AngleAxis(180.0f, Vector3.up));
+                newCard = (GameObject)Instantiate(chillCard, NextCardSpawnPoint, Quaternion.AngleAxis(90.0f, Vector3.left) * Quaternion.AngleAxis(180.0f, Vector3.up));
                 break;
             case eMood.eMoodCount:
                 throw new UnityException("Unknown mood type");
             default:
                 throw new UnityException("Unknown mood type");
         }
+
+        newCard.GetComponent<MoodCard>().mood = card;
     }
 }

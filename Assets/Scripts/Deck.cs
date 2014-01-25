@@ -7,7 +7,7 @@ public class Deck : MonoBehaviour {
 
 	public int[] cardDistributions = new int[(int)eMood.eMoodCount];
 
-    List<MoodCard> CurrentDeck;
+    List<eMood> CurrentDeck;
 
     public int CardsRemaining
     {
@@ -27,7 +27,7 @@ public class Deck : MonoBehaviour {
             throw new UnityException("Invalid card distribution");
         }
 
-        CurrentDeck = new List<MoodCard>();
+        CurrentDeck = new List<eMood>();
 
         foreach (eMood moodId in (eMood[])Enum.GetValues(typeof(eMood)))
         {
@@ -35,7 +35,7 @@ public class Deck : MonoBehaviour {
             {
                 for (int i = 0; i < cardDistributions[(int)moodId]; ++i)
                 {
-                    CurrentDeck.Add(new MoodCard(moodId));
+                    CurrentDeck.Add(moodId);
                 }
             }
         }
@@ -54,9 +54,9 @@ public class Deck : MonoBehaviour {
 	
 	}
 
-    public MoodCard DrawCard()
+    public eMood DrawCard()
     {
-        MoodCard topCard = CurrentDeck[0];
+        eMood topCard = CurrentDeck[0];
         CurrentDeck.RemoveAt(0);
 
         //transform.localScale.y -= cardHeight;
@@ -75,19 +75,6 @@ public enum eMood
     eMoodCount,
 }
 
-public class MoodCard
-{
-    public eMood mood
-    {
-        get;
-        private set;
-    }
-
-    public MoodCard(eMood mood)
-    {
-        this.mood = mood;
-    }
-}
 
 public static class Util
 {

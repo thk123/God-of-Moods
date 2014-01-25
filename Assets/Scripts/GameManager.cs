@@ -133,4 +133,14 @@ public class GameManager : MonoBehaviour {
 
         TakeEvent();
     }
+
+    public void PlayCard(eMood card)
+    {
+        if (gameState != GameState.WaitingOnInput)
+        {
+            throw new UnityException("Invalid state to be playing a card");
+        }
+
+        // todo: use the card 
+    }
 }
