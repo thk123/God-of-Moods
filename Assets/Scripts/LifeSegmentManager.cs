@@ -64,5 +64,7 @@ public class LifeSegmentManager : MonoBehaviour {
                 throw new UnityException("Invalid card selected");
         }
         segments[currentLifeSeg].colour = segColour;
+
+        ++currentLifeSeg;
     }
 }

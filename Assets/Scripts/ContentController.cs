@@ -25,6 +25,7 @@ public class ContentController : MonoBehaviour, IEventShower
 		}
 
 		currentEventShower = newEventShower.GetComponent<EventShower> ();
+		currentEventShower.SetEvent (theEvent);
 		currentEventShower.MoveIn ();
 	}
 	

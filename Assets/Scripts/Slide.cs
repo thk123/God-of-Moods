@@ -17,17 +17,23 @@ public class Slide : MonoBehaviour {
 
     public float timeToTake;
 
+	SlideState currentState;
 	public SlideState state 
 	{
-		get;
-		set;
+		get
+		{
+			return currentState;
+		}
+		set
+		{
+			currentState = value;
+		}
 	}
 
     float timePassed;
 
 	// Use this for initialization
 	void Start () {
-		state = SlideState.Paused;
 	}
 	
 	// Update is called once per frame
@@ -42,11 +48,17 @@ public class Slide : MonoBehaviour {
 			{
 				timePassed += Time.deltaTime;
 				transform.position = Vector3.Lerp (startPosition, idlePosition, timePassed / timeToTake);
+
+				if(timePassed >= timeToTake)
+				{
+					state = SlideState.Idle;
+				}
 				break;
 			}
 			case SlideState.Idle: 
 			{
 				transform.position = idlePosition;
+				timePassed = 0.0f;
 				break;
 			}
 			case SlideState.Exiting:

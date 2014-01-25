@@ -11,8 +11,6 @@ public class EventShower : MonoBehaviour, IEventShower  {
 
 	// Use this for initialization
 	void Start () {
-		topText.text = "";
-		bottomText.text = "";
 	}
 	
 	// Update is called once per frame
