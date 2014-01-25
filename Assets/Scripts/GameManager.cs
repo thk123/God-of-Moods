@@ -34,6 +34,10 @@ public class GameManager : MonoBehaviour {
 
     IEventShower shower;
 
+    LifeSegmentManager lifeSegmentBar;
+
+    DropBox dropBox;
+
     eMood lastMood;
 
 	// Use this for initialization
@@ -45,6 +49,10 @@ public class GameManager : MonoBehaviour {
         hand = GameObject.FindObjectOfType<Hand>();
 
 		shower = FindObjectOfType<EventShower>();
+
+        dropBox = FindObjectOfType<DropBox>();
+
+        lifeSegmentBar = FindObjectOfType<LifeSegmentManager>();
 
         foreach (Events eventDeck in eventDecks)
         {
@@ -142,6 +150,8 @@ public class GameManager : MonoBehaviour {
         }
 
         TakeEvent();
+
+        dropBox.canDrop = true;   
     }
 
     public void PlayCard(eMood card)
@@ -153,6 +163,8 @@ public class GameManager : MonoBehaviour {
 
         lastMood = card;
 
-        //shower.SetOutcome(card);
+        shower.SetOutcome(card);
+
+        lifeSegmentBar.SetSegment(card);
     }
 }
