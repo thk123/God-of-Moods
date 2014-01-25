@@ -43,6 +43,7 @@ public class Hand : MonoBehaviour {
                 }
                 else
                 {
+                    
                     cardSpawnPoint -= gapBetweenCards * Vector3.left;
                 }
             }
@@ -72,12 +73,11 @@ public class Hand : MonoBehaviour {
     public void DealCard(eMood card)
     {
         
-        if (CurrentHandSize >= HandSize - 1)
+        if (CurrentHandSize >= HandSize)
         {
             throw new UnityException("Too many cards in the hand");
         }
-
-        hand[CurrentHandSize] = card;
+               
 
         print("Placing card: " + CurrentHandSize + "/" + HandSize);
         GameObject newCard;
@@ -100,6 +100,8 @@ public class Hand : MonoBehaviour {
             default:
                 throw new UnityException("Unknown mood type");
         }
+
+        hand[CurrentHandSize] = card;
 
         newCard.GetComponent<MoodCard>().mood = card;
     }

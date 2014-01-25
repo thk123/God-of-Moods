@@ -34,7 +34,9 @@ public class GameManager : MonoBehaviour {
     int angerValue;
     int chillValue;
 
-    public MeshRenderer eventRenderObject;
+    //public MeshRenderer eventRenderObject;
+
+    IEventShower shower;
 
     int totalValue
     {
@@ -51,6 +53,8 @@ public class GameManager : MonoBehaviour {
         cardDeck = GameObject.FindObjectOfType<Deck>();
 
         hand = GameObject.FindObjectOfType<Hand>();
+
+        //shower = (IEventShower)FindObjectOfType;
 
         foreach (Events eventDeck in eventDecks)
         {
@@ -114,8 +118,11 @@ public class GameManager : MonoBehaviour {
         }
 
         Event selectedEvent = selecteDeck.DrawEvent();
-        print(selectedEvent.text);
-        eventRenderObject.material = selectedEvent.eventMaterial;
+        /*print(selectedEvent.text);
+        eventRenderObject.material = selectedEvent.eventMaterial;*/
+
+        //shower.SetEvent(selectedEvent);
+
         //eventRenderObject
     }
 	// Update is called once per frame
@@ -135,7 +142,7 @@ public class GameManager : MonoBehaviour {
 
     void StartGo()
     {
-        while (hand.CurrentHandSize < hand.HandSize - 1)
+        while (hand.CurrentHandSize < hand.HandSize)
         {
             
             hand.DealCard(cardDeck.DrawCard());
@@ -151,6 +158,6 @@ public class GameManager : MonoBehaviour {
             throw new UnityException("Invalid state to be playing a card");
         }
 
-        // todo: use the card 
+        //shower.SetOutcome(card);
     }
 }
