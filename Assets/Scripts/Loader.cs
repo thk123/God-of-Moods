@@ -3,9 +3,15 @@ using System.Collections;
 
 public class Loader : MonoBehaviour {
 
+    void Awake()
+    {
+        Application.LoadLevelAdditive("Deck");
+        Application.LoadLevelAdditive("OptimisticEvents");
+    }
+
 	// Use this for initialization
 	void Start () {
-        Application.LoadLevelAdditive("Deck");
+        
 	}
 	
 	// Update is called once per frame

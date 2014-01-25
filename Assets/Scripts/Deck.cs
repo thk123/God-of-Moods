@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class Deck : MonoBehaviour {
 
-	public int[] cardDistributions = new int[(int)MoodCard.eMood.eMoodCount];
+	public int[] cardDistributions = new int[(int)eMood.eMoodCount];
 
     List<MoodCard> CurrentDeck;
 
@@ -17,22 +17,35 @@ public class Deck : MonoBehaviour {
         }
     }
 
+    float startingHeight;
+
 	// Use this for initialization
     void Start()
     {
-        if (cardDistributions.Length != (int)MoodCard.eMood.eMoodCount)
+        if (cardDistributions.Length != (int)eMood.eMoodCount)
         {
             throw new UnityException("Invalid card distribution");
         }
 
         CurrentDeck = new List<MoodCard>();
 
-        foreach (MoodCard.eMood moodId in (MoodCard.eMood[])Enum.GetValues(typeof(MoodCard.eMood)))
+        foreach (eMood moodId in (eMood[])Enum.GetValues(typeof(eMood)))
         {
-            CurrentDeck.Add(new MoodCard(moodId));
+            if (moodId != eMood.eMoodCount)
+            {
+                for (int i = 0; i < cardDistributions[(int)moodId]; ++i)
+                {
+                    CurrentDeck.Add(new MoodCard(moodId));
+                }
+            }
         }
 
         CurrentDeck.Shuffle();
+
+        print(CurrentDeck.Count);
+
+        startingHeight = transform.localScale.y;
+            
     }
 
     // Update is called once per frame
@@ -46,23 +59,29 @@ public class Deck : MonoBehaviour {
         MoodCard topCard = CurrentDeck[0];
         CurrentDeck.RemoveAt(0);
 
+        //transform.localScale.y -= cardHeight;
+
         return topCard;
     }
 }
 
+public enum eMood
+{
+    Optimisism,
+    Pessismism,
+    Anger,
+    Chilled,
+
+    eMoodCount,
+}
+
 public class MoodCard
 {
-	public enum eMood
-	{
-		Optimisism,
-		Pessismism,
-		Anger,
-		Chilled,
-
-		eMoodCount,
-	}
-
-	eMood mood;
+    public eMood mood
+    {
+        get;
+        private set;
+    }
 
     public MoodCard(eMood mood)
     {
