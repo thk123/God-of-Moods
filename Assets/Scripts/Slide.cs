@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System;
 public enum SlideState
 {
 	Paused,
@@ -15,6 +15,8 @@ public class Slide : MonoBehaviour {
 	public Vector3 idlePosition;
     public Vector3 endPosition;
 
+    public event Action<SlideState> SlideStateChanged;
+
     public float timeToTake;
 
 	SlideState currentState;
@@ -27,6 +29,10 @@ public class Slide : MonoBehaviour {
 		set
 		{
 			currentState = value;
+            if (SlideStateChanged != null)
+            {
+                SlideStateChanged(value);
+            }
 		}
 	}
 
@@ -47,7 +53,7 @@ public class Slide : MonoBehaviour {
 			case SlideState.Entering:
 			{
 				timePassed += Time.deltaTime;
-				transform.position = Vector3.Lerp (startPosition, idlePosition, timePassed / timeToTake);
+                transform.localPosition = Vector3.Lerp(startPosition, idlePosition, timePassed / timeToTake);
 
 				if(timePassed >= timeToTake)
 				{
@@ -57,14 +63,14 @@ public class Slide : MonoBehaviour {
 			}
 			case SlideState.Idle: 
 			{
-				transform.position = idlePosition;
+				transform.localPosition = idlePosition;
 				timePassed = 0.0f;
 				break;
 			}
 			case SlideState.Exiting:
 			{
 				timePassed += Time.deltaTime;
-				transform.position = Vector3.Lerp (idlePosition, endPosition, timePassed / timeToTake);
+                transform.localPosition = Vector3.Lerp(idlePosition, endPosition, timePassed / timeToTake);
 				break;
 			}
 		}

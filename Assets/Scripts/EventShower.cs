@@ -9,9 +9,24 @@ public class EventShower : MonoBehaviour, IEventShower  {
 
 	private Event currentEvent;
 
+    public Slide foreground;
+
 	// Use this for initialization
 	void Start () {
+        Slide slide = GetComponent<Slide>();
+        if (slide != null)
+        {
+            slide.SlideStateChanged += new System.Action<SlideState>(EventShower_SlideStateChanged);
+        }
 	}
+
+    void EventShower_SlideStateChanged(SlideState obj)
+    {
+        if (obj == SlideState.Idle)
+        {
+            foreground.state = SlideState.Entering;
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
