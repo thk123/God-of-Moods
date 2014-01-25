@@ -104,5 +104,7 @@ public class Hand : MonoBehaviour {
         hand[CurrentHandSize] = card;
 
         newCard.GetComponent<MoodCard>().mood = card;
+
+        newCard.transform.parent = transform;
     }
 }
