@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public interface IEventShower
+{
+    void SetEvent(Event theEvent);
+
+    void SetOutcome(eMood mood);
+}
+
 public class GameManager : MonoBehaviour {
 
     enum GameState
@@ -8,6 +15,8 @@ public class GameManager : MonoBehaviour {
         Begin,
         WaitingOnInput
     }
+
+    
 
     GameState gameState;
 
@@ -128,6 +137,7 @@ public class GameManager : MonoBehaviour {
     {
         while (hand.CurrentHandSize < hand.HandSize - 1)
         {
+            
             hand.DealCard(cardDeck.DrawCard());
         }
 
