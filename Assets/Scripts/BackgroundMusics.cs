@@ -78,7 +78,7 @@ public class BackgroundMusics : MonoBehaviour {
             eMood mostUsedMood = manager.MostUsedMood;
             int value = manager.moodValues[(int)mostUsedMood];
 
-            if (value >= 4)
+            if (value >= 3)
             {
                 bassPlayer.player.clip = bassTracks[(int)mostUsedMood];
                 bassPlayer.fader.FadeIn();
@@ -92,7 +92,7 @@ public class BackgroundMusics : MonoBehaviour {
         {
             level1Players[(int)mood].fader.FadeIn();
 
-            if (level >= 3)
+            if (level >= 2)
             {
                 level2Players[(int)mood].fader.FadeIn();
             }
