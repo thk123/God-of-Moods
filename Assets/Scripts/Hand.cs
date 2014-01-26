@@ -9,9 +9,15 @@ public class Hand : MonoBehaviour {
     public GameObject angerCard;
     public GameObject chillCard;
 
+    public GameObject FlipCardPrefab;
+
+    public Transform deckPosition;
+
     public float gapBetweenCards;
 
     public int HandSize;
+
+    int currentHandSize = 0;
 
     public int CurrentHandSize
     {
@@ -27,6 +33,8 @@ public class Hand : MonoBehaviour {
             }
 
             return numberOfCards;
+
+            //return currentHandSize;
         }
     }
 
@@ -78,6 +86,10 @@ public class Hand : MonoBehaviour {
         {
             hand[i] = null;
         }
+
+        currentHandSize = 0;
+
+        deckPosition = FindObjectOfType<Deck>().transform;
         
 	}
 	
@@ -93,9 +105,15 @@ public class Hand : MonoBehaviour {
         {
             throw new UnityException("Too many cards in the hand");
         }
-               
 
-        print("Placing card: " + CurrentHandSize + "/" + HandSize);
+        ++currentHandSize;
+
+        GameObject flipCard = (GameObject)Instantiate(FlipCardPrefab);
+        FlippableCard flipper = flipCard.GetComponent<FlippableCard>();
+        flipper.startPosition = deckPosition.position;
+        flipper.finishPosition = NextCardSpawnPoint;
+        flipper.mood = card;
+
         GameObject newCard;
         switch (card)
         {
@@ -124,6 +142,14 @@ public class Hand : MonoBehaviour {
         newCard.GetComponent<Draggable>().OnSpent += new System.EventHandler(Hand_OnSpent);
 
         newCard.transform.parent = transform;
+
+        newCard.SetActive(false);
+
+        flipper.OnArrive += (pos) =>
+            {
+                newCard.SetActive(true);
+                
+            };
     }
 
     void Hand_OnSpent(object sender, System.EventArgs e)
