@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 public class LifeSegmentManager : MonoBehaviour {
 
-    public Color32 OptimismColour;
-    public Color32 PessimismColour;
-    public Color32 AngerColour;
-    public Color32 ChilledColour;
+    public Texture2D OptimismColour;
+    public Texture2D PessimismColour;
+    public Texture2D AngerColour;
+    public Texture2D ChilledColour;
 
     public int LifeSegments;
 
@@ -43,7 +43,7 @@ public class LifeSegmentManager : MonoBehaviour {
 
     public void SetSegment(eMood selectedMood)
     {
-        Color32 segColour;
+        Texture2D segColour;
         switch (selectedMood)
         {
             case eMood.Optimisism:
@@ -63,7 +63,7 @@ public class LifeSegmentManager : MonoBehaviour {
             default:
                 throw new UnityException("Invalid card selected");
         }
-        segments[currentLifeSeg].colour = segColour;
+        segments[currentLifeSeg].blockRender = segColour;
 
         ++currentLifeSeg;
     }

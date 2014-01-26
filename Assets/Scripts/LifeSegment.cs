@@ -8,11 +8,19 @@ public class LifeSegment : MonoBehaviour {
 
     MeshRenderer rendererer;
 
-    public Color32 colour
+    /*public Color32 colour
     {
         set
         {
             renderer.material.color = value;
+        }
+    }*/
+
+    public Texture2D blockRender
+    {
+        set
+        {
+            renderer.material.mainTexture = value;
         }
     }
 
