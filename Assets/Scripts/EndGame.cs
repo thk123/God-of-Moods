@@ -56,15 +56,22 @@ public class EndGame : MonoBehaviour {
                 }
                 else
                 {
-                    scrollContainer.transform.Translate(0.0f, Input.GetAxis("Vertical") * speed * -1.0f, 0.0f);
-                    if (scrollContainer.transform.position.y > endPoint.y)
-                    {
-                        scrollContainer.transform.position = new Vector3(scrollContainer.transform.position.x, endPoint.y, scrollContainer.transform.position.z);
-                    }
-                    else if (scrollContainer.transform.position.y < startPoint.y)
-                    {
-                        scrollContainer.transform.position = new Vector3(scrollContainer.transform.position.x, startPoint.y, scrollContainer.transform.position.z);
-                    }
+					if (Input.GetKey (KeyCode.Escape))
+					{
+						Application.LoadLevel("FrontEnd");
+					}
+					else
+					{
+	                    scrollContainer.transform.Translate(0.0f, Input.GetAxis("Vertical") * speed * -1.0f, 0.0f);
+	                    if (scrollContainer.transform.position.y > endPoint.y)
+	                    {
+	                        scrollContainer.transform.position = new Vector3(scrollContainer.transform.position.x, endPoint.y, scrollContainer.transform.position.z);
+	                    }
+	                    else if (scrollContainer.transform.position.y < startPoint.y)
+	                    {
+	                        scrollContainer.transform.position = new Vector3(scrollContainer.transform.position.x, startPoint.y, scrollContainer.transform.position.z);
+	                    }
+					}
                     /*
                     float axisValue = Input.GetAxis("Vertical");
                     print("Axis: " + axisValue);
