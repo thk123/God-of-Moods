@@ -12,6 +12,10 @@ public class EventShower : MonoBehaviour, IEventShower  {
     public Slide foreground;
 	public Slide outcomeSlide;
 
+    public Renderer gradientRenderer;
+
+    public Texture2D[] moodGradients = new Texture2D[(int)eMood.eMoodCount];
+
 	// Use this for initialization
 	void Start () {
         Slide slide = GetComponent<Slide>();
@@ -43,6 +47,8 @@ public class EventShower : MonoBehaviour, IEventShower  {
 		topText.text = ResolveTextSize(currentEvent.text);
 		bottomText.text = "";
 
+        Texture2D gradientTexture = moodGradients[(int)theEvent.eventCategory];
+        gradientRenderer.material.mainTexture = gradientTexture;
 		foreground.renderer.material.mainTexture = theEvent.eventPicture;
 	}
 

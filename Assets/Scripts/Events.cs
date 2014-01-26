@@ -24,6 +24,7 @@ public class Events : MonoBehaviour {
     public Event DrawEvent()
     {
         Event topEvent = events[0];
+        topEvent.eventCategory = DeckMood;
         events.RemoveAt(0);
         return topEvent;
     }
@@ -34,6 +35,8 @@ public class Event
 {
     public Texture2D eventPicture;
     public Material eventMaterial;
+
+    public eMood eventCategory;
 
     public string text;
 
