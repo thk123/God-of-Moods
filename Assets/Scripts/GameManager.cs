@@ -118,8 +118,7 @@ public class GameManager : MonoBehaviour {
 
     void ResetValues()
     {
-        //lastMood = (eMood)Random.Range(0, (int)eMood.eMoodCount);
-        lastMood = eMood.Anger;
+        lastMood = (eMood)Random.Range(0, (int)eMood.eMoodCount);
 
         moodValues = new int[(int)eMood.eMoodCount];
 
