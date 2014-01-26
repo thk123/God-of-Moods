@@ -36,24 +36,28 @@ public class FlippableCard : MonoBehaviour {
 
     IEnumerator Flip()
     {
-        float time = 0.0f;
-        while (time <= timeToTake)
+        if(timeToTake > 0.0f)
         {
-            float normalisedValue = Mathf.Sin((Mathf.PI * time) / (2 * timeToTake));
-            rotateMe.transform.localRotation = Quaternion.AngleAxis(Mathf.Lerp(startingAngle, startingAngle + 180.0f, normalisedValue), Vector3.up);
-            transform.position = Vector3.Lerp(startPosition, finishPosition, normalisedValue);
-            yield return null;
-            float scaleNormalisedValue = Mathf.Sin((Mathf.PI * time) / (timeToTake));
-            transform.localScale = Matrix4x4.Scale((1 + (scaleNormalisedValue * maxScale)) * Vector3.one) * Vector3.one;
+            float time = 0.0f;
 
-            time += Time.deltaTime;
+            while (time <= timeToTake)
+            {
+                float normalisedValue = Mathf.Sin((Mathf.PI * time) / (2 * timeToTake));
+                rotateMe.transform.localRotation = Quaternion.AngleAxis(Mathf.Lerp(startingAngle, startingAngle + 180.0f, normalisedValue), Vector3.up);
+                transform.position = Vector3.Lerp(startPosition, finishPosition, normalisedValue);
+                yield return null;
+                float scaleNormalisedValue = Mathf.Sin((Mathf.PI * time) / (timeToTake));
+                transform.localScale = Matrix4x4.Scale((1 + (scaleNormalisedValue * maxScale)) * Vector3.one) * Vector3.one;
+
+                time += Time.deltaTime;
+            }
+
+            if (OnArrive != null)
+            {
+                OnArrive(finishPosition);
+            }
+
+            Destroy(gameObject);
         }
-
-        if (OnArrive != null)
-        {
-            OnArrive(finishPosition);
-        }
-
-        Destroy(gameObject);
     }
 }
