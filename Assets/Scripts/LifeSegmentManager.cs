@@ -17,6 +17,14 @@ public class LifeSegmentManager : MonoBehaviour {
 
     int currentLifeSeg;
 
+    public bool IsFull
+    {
+        get
+        {
+            return currentLifeSeg >= LifeSegments;
+        }
+    }
+
     public float segmentGap;
 
 	// Use this for initialization

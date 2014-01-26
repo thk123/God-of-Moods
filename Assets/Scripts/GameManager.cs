@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
         Begin,
         WaitingOnCardChoose,
         WaitingOnConfirmation,
+        EndGame,
 
     }
 
@@ -175,6 +176,9 @@ public class GameManager : MonoBehaviour {
 
                 // TODO
                 break;
+
+            case GameState.EndGame:
+
             default:
                 break;
         }
@@ -246,6 +250,14 @@ public class GameManager : MonoBehaviour {
             throw new UnityException("Invalid state to advance from");
         }
 
-        gameState = GameState.Begin;
+        if (lifeSegmentBar.IsFull)
+        {
+            gameState = GameState.EndGame;
+            GetComponent<EndGame>().PopulateEndView();
+        }
+        else
+        {
+            gameState = GameState.Begin;
+        }
     }
 }
