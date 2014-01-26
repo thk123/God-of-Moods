@@ -18,6 +18,8 @@ public class DropBox : MonoBehaviour, IDropBox {
     public Texture2D canDropTexture;
     public Texture2D cantDropTexture;
 
+    MoodCard cardOnBox;
+
     public bool CanDrop
     {
         get 
@@ -29,13 +31,17 @@ public class DropBox : MonoBehaviour, IDropBox {
             internalCanDrop = value;
             if (internalCanDrop)
             {
-                renderer.material.mainTexture = canDropTexture;
+                //renderer.material.mainTexture = canDropTexture;
+                if (cardOnBox != null)
+                {
+                    Destroy(cardOnBox.gameObject);
+                }
             }
-            else
+            /*else
             {
                 renderer.material.mainTexture = cantDropTexture;
 
-            }
+            }*/
         }
     }
 
@@ -55,8 +61,11 @@ public class DropBox : MonoBehaviour, IDropBox {
     public void DropCard(MoodCard card)
     {
         manager.PlayCard(card.mood);
-        GameObject.Destroy(card.gameObject);
+        //GameObject.Destroy(card.gameObject);
 
+        card.transform.position = transform.position;
+        card.transform.Translate(Vector3.up);     
+        cardOnBox = card;
         CanDrop = false;
     }
 }
