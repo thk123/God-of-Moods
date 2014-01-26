@@ -31,6 +31,7 @@ public class DropBox : MonoBehaviour, IDropBox {
             internalCanDrop = value;
             if (internalCanDrop)
             {
+				renderer.material.color = Color.white;
                 renderer.material.mainTexture = canDropTexture;
                 if (cardOnBox != null)
                 {
@@ -39,8 +40,21 @@ public class DropBox : MonoBehaviour, IDropBox {
             }
             else
             {
-                renderer.material.mainTexture = cantDropTexture;
-
+				switch (cardOnBox.mood) {
+				case eMood.Optimisism:
+					renderer.material.color = manager.OptimismColour;
+					break;
+				case eMood.Pessismism:
+					renderer.material.color = manager.PessimismColour;
+					break;
+				case eMood.Anger:
+					renderer.material.color = manager.AngerColour;
+					break;
+				case eMood.Chilled:
+					renderer.material.color = manager.ChilledColour;
+					break;
+				}
+				renderer.material.mainTexture = cantDropTexture;
             }
         }
     }
