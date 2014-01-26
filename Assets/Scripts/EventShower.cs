@@ -16,6 +16,8 @@ public class EventShower : MonoBehaviour, IEventShower  {
 
     public Texture2D[] moodGradients = new Texture2D[(int)eMood.eMoodCount];
 
+    public int eventOrder;
+
 	// Use this for initialization
 	void Start () {
         Slide slide = GetComponent<Slide>();

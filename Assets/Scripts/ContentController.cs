@@ -11,9 +11,12 @@ public class ContentController : MonoBehaviour, IEventShower
 
     public AudioSource newEventSound;
 
+    int counter;
+
 	void Start()
 	{
 		currentEventShower = null;
+        counter = 0;
 	}
 
 	#region IEventShower implementation
@@ -31,6 +34,8 @@ public class ContentController : MonoBehaviour, IEventShower
 		currentEventShower = newEventShower.GetComponent<EventShower> ();
 		currentEventShower.SetEvent (theEvent);
 		currentEventShower.MoveIn ();
+        currentEventShower.eventOrder = counter;
+        ++counter;
 
         newEventSound.Play();
 	}

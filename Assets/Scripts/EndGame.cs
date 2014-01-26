@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
 public class EndGame : MonoBehaviour {
 
     public Vector3 startPoint;
@@ -20,9 +20,19 @@ public class EndGame : MonoBehaviour {
         scrollContainer = new GameObject();
 
         EventShower[] eventViews = FindObjectsOfType<EventShower>();
+        List<EventShower> lst = new List<EventShower>(eventViews);
+        lst.Sort((lhs, rhs) =>
+    {
+        return lhs.eventOrder - rhs.eventOrder;
+    });
+        eventViews = lst.ToArray();
+
+
+        
 
         for (int i = 0; i < eventViews.Length; ++i)
         {
+
             EventShower controller = eventViews[i];
             controller.transform.parent = scrollContainer.transform;
             controller.transform.localPosition = startPoint + (-i * Vector3.up * scale);
