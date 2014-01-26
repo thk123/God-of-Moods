@@ -73,7 +73,6 @@ public class BackgroundMusics : MonoBehaviour {
         for (int i = 0; i < (int)eMood.eMoodCount; ++i )
         {
             eMood mood = (eMood)i;
-            print(i + ": " + mood + "(" + manager.moodValues.Length + ")" + ((int)eMood.eMoodCount));
             ComputeSounds(mood, manager.moodValues[i]);
 
             eMood mostUsedMood = manager.MostUsedMood;
