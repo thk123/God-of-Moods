@@ -15,10 +15,17 @@ public class GameManager : MonoBehaviour {
         Begin,
         WaitingOnCardChoose,
         WaitingOnConfirmation,
+        EndGame,
 
     }
 
-    
+    public Renderer background;
+
+    public Color32 DefaultColour;
+    public Color32 OptimismColour;
+    public Color32 PessimismColour;
+    public Color32 AngerColour;
+    public Color32 ChilledColour;
 
     GameState gameState;
 
@@ -41,6 +48,29 @@ public class GameManager : MonoBehaviour {
     eMood lastMood;
 
     AdvanceButton button;
+
+    public eMood MostUsedMood
+    {
+        get
+        {
+
+            
+            eMood currentMood = lastMood;
+
+            int maxValue = moodValues[(int)currentMood];
+
+            for (int i = 0; i < (int)eMood.eMoodCount; ++i)
+            {
+                if (moodValues[i] > maxValue)
+                {
+                    currentMood = (eMood)i;
+                }
+            }
+            return currentMood;
+        }
+    }
+
+    public int[] moodValues = new int[(int)eMood.eMoodCount];
 
 	// Use this for initialization
 	void Start () {
@@ -84,15 +114,21 @@ public class GameManager : MonoBehaviour {
         ResetValues();
 
         gameState = GameState.Begin;
-
-        
-
-
 	}
 
     void ResetValues()
     {
         lastMood = (eMood)Random.Range(0, (int)eMood.eMoodCount);
+
+        moodValues = new int[(int)eMood.eMoodCount];
+
+        for (int i = 0; i < moodValues.Length; ++i)
+        {
+            moodValues[i] = 0;
+        }
+
+        background.material.color = DefaultColour;
+
     }
 
     void TakeEvent()
@@ -139,6 +175,9 @@ public class GameManager : MonoBehaviour {
 
                 // TODO
                 break;
+
+            case GameState.EndGame:
+
             default:
                 break;
         }
@@ -172,6 +211,32 @@ public class GameManager : MonoBehaviour {
 
         lifeSegmentBar.SetSegment(card);
 
+        switch (card)
+        {
+            case eMood.Optimisism:
+                
+                background.material.color = OptimismColour;
+                break;
+            case eMood.Pessismism:
+                
+                background.material.color = PessimismColour;
+                break;
+            case eMood.Anger:
+                
+                background.material.color = AngerColour;
+                break;
+            case eMood.Chilled:
+                
+                background.material.color = ChilledColour;
+                break;
+            case eMood.eMoodCount:
+                throw new UnityException("Invalid card");
+            default:
+                throw new UnityException("Invalid card");
+        }
+
+        ++moodValues[(int)card];
+
         button.Avaliable = true;
 
         gameState = GameState.WaitingOnConfirmation;
@@ -184,6 +249,14 @@ public class GameManager : MonoBehaviour {
             throw new UnityException("Invalid state to advance from");
         }
 
-        gameState = GameState.Begin;
+        if (lifeSegmentBar.IsFull)
+        {
+            gameState = GameState.EndGame;
+            GetComponent<EndGame>().PopulateEndView();
+        }
+        else
+        {
+            gameState = GameState.Begin;
+        }
     }
 }

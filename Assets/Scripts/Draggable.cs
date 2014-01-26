@@ -8,6 +8,8 @@ public class Draggable : MonoBehaviour {
 
     bool beingDragged;
 
+    bool canDrag;
+
     Vector3 startingPosition;
 
     IDropBox onDropBox;
@@ -31,65 +33,70 @@ public class Draggable : MonoBehaviour {
 
         scale = Matrix4x4.Scale(scaleFactor * Vector3.one);
         inverseScale = scale.inverse;
+        canDrag = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (beingDragged)
+        if (canDrag)
         {
-            Ray clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Vector3 pos = clickRay.GetPoint(8.0f);
-            transform.position  = pos;
-
-            if (Input.GetMouseButtonUp(0))
+            if (beingDragged)
             {
-                beingDragged = false;
+                Ray clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Vector3 pos = clickRay.GetPoint(8.0f);
+                transform.position = pos;
 
-                if (onDropBox != null && onDropBox.CanDrop)
+                if (Input.GetMouseButtonUp(0))
                 {
-                    onDropBox.DropCard(GetComponent<MoodCard>());
+                    beingDragged = false;
 
-                    if (OnSpent != null)
+                    if (onDropBox != null && onDropBox.CanDrop)
                     {
-                        OnSpent(this, new EventArgs());
+                        onDropBox.DropCard(GetComponent<MoodCard>());
+
+                        if (OnSpent != null)
+                        {
+                            OnSpent(this, new EventArgs());
+                        }
+
+                        cardPlayedSound.Play();
+
+                        canDrag = false;
+
+                    }
+                    else
+                    {
+                        cardResetSound.Play();
+                        transform.position = startingPosition;
                     }
 
-                    cardPlayedSound.Play();
-                 
+                    transform.localScale = inverseScale * transform.localScale;
                 }
-                else
-                {
-                    cardResetSound.Play();
-                    transform.position = startingPosition;
-                }
-
-                transform.localScale = inverseScale * transform.localScale;
             }
-        }
-        else
-        {
-            if (Input.GetMouseButtonDown(0))
+            else
             {
-                onDropBox = null;
-
-
-                if (AttemptClickOrtho())
+                if (Input.GetMouseButtonDown(0))
                 {
-                    beingDragged = true;
-                    startingPosition = transform.position;
+                    onDropBox = null;
 
-                    cardPickedUpSound.Play();
 
-                    transform.localScale = scale * transform.localScale;
-
-                    if (OnPickedUp != null)
+                    if (AttemptClickOrtho())
                     {
-                        OnPickedUp(this, new EventArgs());
+                        beingDragged = true;
+                        startingPosition = transform.position;
+
+                        cardPickedUpSound.Play();
+
+                        transform.localScale = scale * transform.localScale;
+
+                        if (OnPickedUp != null)
+                        {
+                            OnPickedUp(this, new EventArgs());
+                        }
                     }
                 }
             }
         }
-        
 	}
 
     bool AttemptClickOrtho()

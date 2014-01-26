@@ -3,10 +3,11 @@ using System.Collections;
 using System;
 public enum SlideState
 {
-	Paused,
-	Entering,
-	Idle,
-	Exiting
+    Paused,
+    Entering,
+    Idle,
+    Exiting,
+    Done
 };
 
 public class Slide : MonoBehaviour {
@@ -63,7 +64,7 @@ public class Slide : MonoBehaviour {
 			}
 			case SlideState.Idle: 
 			{
-				transform.localPosition = idlePosition;
+				//transform.localPosition = idlePosition;
 				timePassed = 0.0f;
 				break;
 			}
@@ -71,8 +72,17 @@ public class Slide : MonoBehaviour {
 			{
 				timePassed += Time.deltaTime;
                 transform.localPosition = Vector3.Lerp(idlePosition, endPosition, timePassed / timeToTake);
+                if (timePassed >= timeToTake)
+                {
+                    state = SlideState.Done;
+                }
 				break;
 			}
+
+            case SlideState.Done:
+            {
+                break;
+            }
 		}
 	}
 }

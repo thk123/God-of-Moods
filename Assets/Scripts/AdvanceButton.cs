@@ -80,6 +80,7 @@ public class AdvanceButton : MonoBehaviour {
                 Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 if (collider2D.OverlapPoint(pos))
                 {
+                    
                     gameManager.Advance();
                     advanceButtonClickSound.Play();
                 }

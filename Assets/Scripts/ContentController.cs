@@ -9,6 +9,8 @@ public class ContentController : MonoBehaviour, IEventShower
 
     public AudioSource outcomeArrivalSound;
 
+    public AudioSource newEventSound;
+
 	void Start()
 	{
 		currentEventShower = null;
@@ -29,6 +31,8 @@ public class ContentController : MonoBehaviour, IEventShower
 		currentEventShower = newEventShower.GetComponent<EventShower> ();
 		currentEventShower.SetEvent (theEvent);
 		currentEventShower.MoveIn ();
+
+        newEventSound.Play();
 	}
 	
 	public void SetOutcome (eMood mood)

@@ -10,7 +10,7 @@ public class Deck : MonoBehaviour {
     List<eMood> CurrentDeck;
 
     public AudioSource newCardDrawn;
-    
+
 
     public int CardsRemaining
     {
@@ -64,6 +64,7 @@ public class Deck : MonoBehaviour {
 
         newCardDrawn.Play();
 
+        
         return topCard;
     }
 }

@@ -9,3 +9,5 @@
 Library/*
 Temp/*
 Builds/*
+*.suo
+GodOfMoods-csharp.suo
