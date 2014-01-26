@@ -31,17 +31,17 @@ public class DropBox : MonoBehaviour, IDropBox {
             internalCanDrop = value;
             if (internalCanDrop)
             {
-                //renderer.material.mainTexture = canDropTexture;
+                renderer.material.mainTexture = canDropTexture;
                 if (cardOnBox != null)
                 {
                     Destroy(cardOnBox.gameObject);
                 }
             }
-            /*else
+            else
             {
                 renderer.material.mainTexture = cantDropTexture;
 
-            }*/
+            }
         }
     }
 
