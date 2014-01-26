@@ -60,7 +60,7 @@ public class MenuButton : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Avaliable = false;
+        Avaliable = true;
     }
 
     // Update is called once per frame
@@ -82,7 +82,7 @@ public class MenuButton : MonoBehaviour
                 Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 if (collider2D.OverlapPoint(pos))
                 {
-                    // TODO: quit the app 
+                    Application.LoadLevel("FrontEnd");
                     advanceButtonClickSound.Play();
                 }
 
