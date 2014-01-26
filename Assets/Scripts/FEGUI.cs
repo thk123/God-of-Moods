@@ -17,21 +17,21 @@ public class FEGUI : MonoBehaviour {
     void OnGUI()
     {
 
-        float leftMargin = Screen.width * 0.25f;
+        float leftMargin = Screen.width * 0.5f;
 
-        GUIContent label = new GUIContent("Enter Name: ");
+        GUIContent label = new GUIContent("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
 
         GUIStyle style = new GUIStyle();
         Vector2 size = style.CalcSize(label);
         size.x += 50;
         size.y *= 3;
-        float topMargin = (Screen.height * 0.5f) - (size.y * 0.5f);
+        float topMargin = (Screen.height * 0.6f) - (size.y * 0.5f);
 
-        GUI.TextArea(new Rect(leftMargin, topMargin, size.x, size.y), "Enter Name: ");
-        player.playerName = GUI.TextField(new Rect(leftMargin + size.x + 50, topMargin, 3 * size.x, size.y), player.playerName, 36);
+        
+        player.playerName = GUI.TextField(new Rect(leftMargin - (0.5f * size.x), topMargin, size.x, size.y), player.playerName, 36);
 
-        if (GUI.Button(new Rect(leftMargin + (4 * size.x) + 100.0f, topMargin, size.x, size.y), "Play"))
+        if (GUI.Button(new Rect(leftMargin - (0.5f * size.x), topMargin + (size.y), size.x, size.y), "Play"))
         {
             Application.LoadLevel("Main");
 
