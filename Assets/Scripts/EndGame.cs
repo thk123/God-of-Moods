@@ -12,6 +12,8 @@ public class EndGame : MonoBehaviour {
     float time;
 	GameObject scrollContainer;
 
+    public GameObject endText;
+
     bool shouldScroll;
     public float speed;
 
@@ -37,6 +39,11 @@ public class EndGame : MonoBehaviour {
             controller.transform.parent = scrollContainer.transform;
             controller.transform.localPosition = startPoint + (-i * Vector3.up * scale);
         }
+
+        
+        endText.transform.parent = scrollContainer.transform;
+        endText.transform.localPosition = startPoint + (-eventViews.Length * Vector3.up * (scale)) + (2.5f * Vector3.up);
+            ;
 
         //scrollContainer.transform.Translate(Vector3.left * 100.0f);
         Camera.main.transform.Translate(Vector3.left * 200.0f);
