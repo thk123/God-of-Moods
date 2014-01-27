@@ -31,7 +31,10 @@ public class FadeSound : MonoBehaviour {
         {
             case FadeState.Idle:
                 fadeTime = 0.0f;
-                source.Play();
+				if(!source.isPlaying)
+				{
+					source.Play();
+				}
                 break;
 
             case FadeState.On:
