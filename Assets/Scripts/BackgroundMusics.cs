@@ -82,6 +82,10 @@ public class BackgroundMusics : MonoBehaviour {
             {
                 bassPlayer.player.clip = bassTracks[(int)mostUsedMood];
                 bassPlayer.fader.FadeIn();
+                if (!bassPlayer.player.isPlaying)
+                {
+                    bassPlayer.player.Play();
+                }
             }
         }
 	}
