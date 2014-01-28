@@ -54,7 +54,9 @@ public class BackgroundMusics : MonoBehaviour {
 
     public GameManager manager;
 
-    BGMusic bassPlayer;
+    BGMusic[] bassPlayers = new BGMusic[(int)eMood.eMoodCount];
+
+    int oldBass;
 
 	// Use this for initialization
 	void Start () {
@@ -62,9 +64,10 @@ public class BackgroundMusics : MonoBehaviour {
         {
             level1Players[i] = new BGMusic(level1Tracks[i], transform);
             level2Players[i] = new BGMusic(level2Tracks[i], transform);
+            bassPlayers[i] = new BGMusic(bassTracks[i], transform);
         }
 
-        bassPlayer = new BGMusic(null, transform);
+        oldBass = -1;
 	}
 	
 	// Update is called once per frame
@@ -75,18 +78,21 @@ public class BackgroundMusics : MonoBehaviour {
             eMood mood = (eMood)i;
             ComputeSounds(mood, manager.moodValues[i]);
 
-            eMood mostUsedMood = manager.MostUsedMood;
-            int value = manager.moodValues[(int)mostUsedMood];
+            
+        }
 
-            if (value >= 3)
-            {
-                bassPlayer.player.clip = bassTracks[(int)mostUsedMood];
-                bassPlayer.fader.FadeIn();
-                if (!bassPlayer.player.isPlaying)
-                {
-                    bassPlayer.player.Play();
-                }
-            }
+        eMood mostUsedMood = manager.MostUsedMood;
+        int value = manager.moodValues[(int)mostUsedMood];
+
+        if (value >= 3)
+        {
+            bassPlayers[(int)mostUsedMood].player.clip = bassTracks[(int)mostUsedMood];
+            bassPlayers[(int)mostUsedMood].fader.FadeIn();
+        }
+
+        if(oldBass != value && oldBass != -1)
+        {
+            bassPlayers[oldBass].fader.FadeOut();
         }
 	}
 
