@@ -89,6 +89,12 @@ public class EndGame : MonoBehaviour {
 	                        scrollContainer.transform.position = new Vector3(scrollContainer.transform.position.x, startPoint.y, scrollContainer.transform.position.z);
 	                    }
 					}
+
+                    Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    if(endText.collider2D.OverlapPoint(pos))
+                    {
+                        Application.LoadLevel("FrontEnd");
+                    }
                     /*
                     float axisValue = Input.GetAxis("Vertical");
                     print("Axis: " + axisValue);
